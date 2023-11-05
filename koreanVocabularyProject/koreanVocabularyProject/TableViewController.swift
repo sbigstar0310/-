@@ -66,13 +66,13 @@ class TableViewController : UITableViewController {
         return cell
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "detailSegue" {
-            let VC = segue.destination as? DetailViewController
-            let cell = segue.source as? TableViewCell
-            VC?.passedNum = cell?.number.text
-            VC?.passedWord = cell?.name.text
-            VC?.passedDefinition = cell?.definition.text
-        }
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        guard let VC = self.storyboard?.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {return}
+        let row = self.list[indexPath.row]
+        VC.passedNum = String(row.no!)
+        VC.passedWord = row.word
+        VC.passedDefinition = row.definition
+        
+        self.navigationController?.pushViewController(VC, animated: true)
     }
 }
